@@ -4,7 +4,8 @@ import player as Player
 import npc as NPC
 from conf import (
     SCREEN_HEIGHT,
-    SCREEN_WIDTH
+    SCREEN_WIDTH,
+    COLLIDE_RATIO
 )
 
 from pygame.locals import (
@@ -57,7 +58,11 @@ while running:
     for entity in all_sprites:
         screen.blit(entity.image, entity.rect)
 
-    if pygame.sprite.spritecollideany(player, enemies):
+    if pygame.sprite.spritecollideany(
+        player, 
+        enemies, 
+        collided=pygame.sprite.collide_rect_ratio(COLLIDE_RATIO)
+        ):
         player.kill()
         running = False
 
