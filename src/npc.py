@@ -1,5 +1,9 @@
 import pygame
 import random
+from utils import (
+    vector_length, 
+    normalize_vector,
+)
 from pygame.locals import (
     K_UP,
     K_DOWN,
@@ -25,14 +29,28 @@ class NPC(pygame.sprite.Sprite):
         self.image.set_colorkey((255, 255, 255))
         self.rect = self.image.get_rect(
             center=(
-                random.randint(SCREEN_WIDTH + 20, SCREEN_WIDTH + 100),
+                random.randint(0, SCREEN_WIDTH),
                 random.randint(0, SCREEN_HEIGHT),
             )
         )
-        self.speed = random.randint(1, 3)
+        self.speed = 4
+        self.position = (self.rect.centerx, self.rect.centery)
+        self.destination = (random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGHT))
+        self.mov = False
+
         
     def update(self):
-        self.rect.move_ip(-self.speed, 0)
-        if self.rect.right < 0:
-            self.kill()
-        
+        self.position = (self.rect.centerx, self.rect.centery)
+        self.__calculate_movement()
+        if vector_length(self.destination[0] - self.position[0], self.destination[1] - self.position[1]) < 10:
+            self.__update_destination()
+        self.rect.x += self.stepx * self.speed
+        self.rect.y += self.stepy * self.speed
+
+    def __calculate_movement(self):
+        self.directions = normalize_vector(self.destination[0] - self.position[0], self.destination[1] - self.position[1])
+        self.stepx = self.directions[0]
+        self.stepy = self.directions[1]
+
+    def __update_destination(self):
+        self.destination = (random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGHT))
