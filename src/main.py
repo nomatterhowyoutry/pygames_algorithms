@@ -23,6 +23,7 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 player = Player.Player()
 clock = pygame.time.Clock()
+bg_image = pygame.image.load("Tile_12.png")
 
 enemies = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
@@ -35,6 +36,18 @@ all_sprites.add(new_enemy)
 
 ADDENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDENEMY, 1000)
+
+
+def fill_bg(bg):
+    x = 32
+    yy = SCREEN_HEIGHT
+    y = 32
+    while yy + y > 0:
+        xx = 0
+        yy -= y
+        while xx < SCREEN_WIDTH + x:
+            screen.blit(bg, (xx, yy))
+            xx += x
 
 
 running = True
@@ -52,6 +65,7 @@ while running:
         #     all_sprites.add(new_enemy)
 
     screen.fill((30, 25, 25))
+    fill_bg(bg_image)
     player.update(pressed_keys)
     enemies.update(player.position)
     for blop in enemies:
