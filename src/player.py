@@ -21,8 +21,8 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('adventurer-idle-00.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
-        self.speed_x = 1
-        self.speed_y = 1.5
+        self.speed_x = 2
+        self.speed_y = 3
         self.orientation = 'right'
 
     def update(self, pressed_keys):
@@ -48,6 +48,9 @@ class Player(pygame.sprite.Sprite):
         if self.rect.bottom >= SCREEN_HEIGHT:
             self.rect.bottom = SCREEN_HEIGHT
 
+    @property
+    def position(self):
+        return self.rect.centerx, self.rect.centery
 
     def blit(self, orientation):
         self.orientation = orientation

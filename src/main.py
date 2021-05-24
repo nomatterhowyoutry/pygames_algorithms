@@ -42,24 +42,18 @@ while running:
     pressed_keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == KEYDOWN:
-            
-
             if event.key == K_ESCAPE:
                 running = False
-
-
         if event.type == pygame.QUIT:
             running = False
-
         # if event.type == ADDENEMY:
         #     new_enemy = NPC.NPC()
         #     enemies.add(new_enemy)
         #     all_sprites.add(new_enemy)
-    
 
     screen.fill((30, 25, 25))
     player.update(pressed_keys)
-    enemies.update()
+    enemies.update(player.position)
     for blop in enemies:
         screen.blit(surf, blop.destination)
     for entity in all_sprites:

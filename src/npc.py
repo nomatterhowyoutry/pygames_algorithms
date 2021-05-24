@@ -18,6 +18,7 @@ from conf import (
     SCREEN_WIDTH
 )
 
+
 class NPC(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -33,21 +34,29 @@ class NPC(pygame.sprite.Sprite):
                 random.randint(0, SCREEN_HEIGHT),
             )
         )
-        self.speed = 4
+        self.speed = 3
         self.position = (self.rect.centerx, self.rect.centery)
         self.destination = (random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGHT))
         self.mov = False
 
-        
-    def update(self):
+    def update(self, player_position):
         self.position = (self.rect.centerx, self.rect.centery)
-        self.__calculate_movement()
-        if vector_length(self.destination[0] - self.position[0], self.destination[1] - self.position[1]) < 10:
+        if self.__calculate_distance(player_position) < 100:
+            self.destination = (2 * self.position[0] - player_position[0], 2 * self.position[1] - player_position[1])
+        self.__calculate_direction()
+        if self.__calculate_distance(self.destination) < 10:
             self.__update_destination()
+        self.__move()
+
+    def __move(self):
         self.rect.x += self.stepx * self.speed
         self.rect.y += self.stepy * self.speed
 
-    def __calculate_movement(self):
+    def __calculate_distance(self, target):
+        self.position = (self.rect.centerx, self.rect.centery)
+        return vector_length(target[0] - self.position[0], target[1] - self.position[1])
+
+    def __calculate_direction(self):
         self.directions = normalize_vector(self.destination[0] - self.position[0], self.destination[1] - self.position[1])
         self.stepx = self.directions[0]
         self.stepy = self.directions[1]
