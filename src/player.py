@@ -20,31 +20,42 @@ class Player(pygame.sprite.Sprite):
         super(Player, self).__init__()
         self.image = pygame.image.load('adventurer-idle-00.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (100, 100))
+        self.camera_position = [0, 0]
         self.rect = self.image.get_rect()
+        self.rect.centerx = SCREEN_WIDTH / 2
+        self.rect.centery = SCREEN_HEIGHT / 2
         self.speed_x = 2
         self.speed_y = 3
         self.orientation = 'right'
 
     def update(self, pressed_keys):
         if pressed_keys[K_UP]:
-            self.rect.move_ip(0, -self.speed_y)
+            self.camera_position[1] += self.speed_y
+            self.rect.centery -= self.speed_y
+            # self.rect.move_ip(0, -self.speed_y)
         if pressed_keys[K_DOWN]:
-            self.rect.move_ip(0, self.speed_y)
+            self.camera_position[1] -= self.speed_y
+            self.rect.centery += self.speed_y
+            # self.rect.move_ip(0, self.speed_y)
         if pressed_keys[K_LEFT]:
             self.blit('left')
-            self.rect.move_ip(-self.speed_x, 0)
+            self.camera_position[0] += self.speed_x
+            self.rect.centerx -= self.speed_x
+            # self.rect.move_ip(-self.speed_x, 0)
         if pressed_keys[K_RIGHT]:
             self.blit('right')
-            self.rect.move_ip(self.speed_x, 0)
+            self.camera_position[0] -= self.speed_x
+            self.rect.centerx += self.speed_x
+            # self.rect.move_ip(self.speed_x, 0)
 
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
-        if self.rect.top <= 0:
-            self.rect.top = 0
-        if self.rect.bottom >= SCREEN_HEIGHT:
-            self.rect.bottom = SCREEN_HEIGHT
+        # if self.rect.left < 0:
+        #     self.rect.left = 0
+        # if self.rect.right > SCREEN_WIDTH:
+        #     self.rect.right = SCREEN_WIDTH
+        # if self.rect.top <= 0:
+        #     self.rect.top = 0
+        # if self.rect.bottom >= SCREEN_HEIGHT:
+        #     self.rect.bottom = SCREEN_HEIGHT
 
     @property
     def position(self):

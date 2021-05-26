@@ -40,6 +40,7 @@ class NPC(pygame.sprite.Sprite):
         self.mov = False
         self.orientation = 'right'
 
+
     def update(self, player_position):
         self.position = (self.rect.centerx, self.rect.centery)
         if self.__calculate_distance(player_position) < 100:

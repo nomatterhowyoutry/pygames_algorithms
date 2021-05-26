@@ -1,4 +1,5 @@
 import pygame
+import camera as Camera
 import background as Background
 import player as Player
 import npc as NPC
@@ -17,6 +18,7 @@ from pygame.locals import (
 
 pygame.init()
 
+camera = Camera.Camera()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 player = Player.Player()
 clock = pygame.time.Clock()
@@ -51,8 +53,10 @@ while running:
         #     all_sprites.add(new_enemy)
 
     player.update(pressed_keys)
+    camera.update(player.camera_position)
+    print(player.position)
     enemies.update(player.position)
-    screen.blit(background.surface, (0, 0))
+    screen.blit(background.surface, camera.position)
     for blop in enemies:
         screen.blit(surf, blop.destination)
     for entity in all_sprites:
