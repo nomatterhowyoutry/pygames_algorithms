@@ -1,13 +1,11 @@
 import pygame
-import random
+import background as Background
 import player as Player
 import npc as NPC
 from conf import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
-    COLLIDE_RATIO
-)
-
+    COLLIDE_RATIO)
 from pygame.locals import (
     K_UP,
     K_DOWN,
@@ -15,8 +13,7 @@ from pygame.locals import (
     K_RIGHT,
     K_ESCAPE,
     KEYDOWN,
-    QUIT,
-)
+    QUIT)
 
 pygame.init()
 
@@ -24,6 +21,7 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 player = Player.Player()
 clock = pygame.time.Clock()
 bg_image = pygame.image.load("Tile_12.png")
+background = Background.Background(bg_image, (32, 32))
 
 enemies = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
@@ -36,18 +34,6 @@ all_sprites.add(new_enemy)
 
 ADDENEMY = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDENEMY, 1000)
-
-
-def fill_bg(bg):
-    x = 32
-    yy = SCREEN_HEIGHT
-    y = 32
-    while yy + y > 0:
-        xx = 0
-        yy -= y
-        while xx < SCREEN_WIDTH + x:
-            screen.blit(bg, (xx, yy))
-            xx += x
 
 
 running = True
@@ -64,10 +50,9 @@ while running:
         #     enemies.add(new_enemy)
         #     all_sprites.add(new_enemy)
 
-    screen.fill((30, 25, 25))
-    fill_bg(bg_image)
     player.update(pressed_keys)
     enemies.update(player.position)
+    screen.blit(background.surface, (0, 0))
     for blop in enemies:
         screen.blit(surf, blop.destination)
     for entity in all_sprites:

@@ -31,12 +31,10 @@ class Player(pygame.sprite.Sprite):
         if pressed_keys[K_DOWN]:
             self.rect.move_ip(0, self.speed_y)
         if pressed_keys[K_LEFT]:
-            if (self.orientation != 'left'):
-                self.blit('left')
+            self.blit('left')
             self.rect.move_ip(-self.speed_x, 0)
         if pressed_keys[K_RIGHT]:
-            if (self.orientation != 'right'):
-                self.blit('right')
+            self.blit('right')
             self.rect.move_ip(self.speed_x, 0)
 
         if self.rect.left < 0:
@@ -53,5 +51,6 @@ class Player(pygame.sprite.Sprite):
         return self.rect.centerx, self.rect.centery
 
     def blit(self, orientation):
-        self.orientation = orientation
-        self.image = pygame.transform.flip(self.image, True, False)
+        if self.orientation != orientation:
+            self.orientation = orientation
+            self.image = pygame.transform.flip(self.image, True, False)
