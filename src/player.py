@@ -13,6 +13,7 @@ from conf import (
     SCREEN_WIDTH
 )
 
+
 class Player(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -24,7 +25,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = SCREEN_WIDTH / 2
         self.rect.centery = SCREEN_HEIGHT / 2
-        self.speed_x = 2
+        self.speed_x = 3
         self.speed_y = 3
         self.orientation = 'right'
 

@@ -54,11 +54,11 @@ while running:
 
     player.update(pressed_keys)
     camera.update(player.camera_position)
-    print(player.position)
+    print(camera.position)
     enemies.update(player.position)
-    screen.blit(background.surface, camera.position)
+    screen.blit(background.surface, (0, 0), (camera.position[0], camera.position[1], SCREEN_WIDTH, SCREEN_HEIGHT))
     for blop in enemies:
-        screen.blit(surf, blop.destination)
+        screen.blit(surf, (blop.destination[0] + camera.position[0], blop.destination[1] + camera.position[1]))
     for entity in all_sprites:
         screen.blit(entity.image, entity.rect)
     # if pygame.sprite.spritecollideany(
@@ -68,6 +68,7 @@ while running:
     #     ):
     #     player.kill()
     #     running = False
+
 
     pygame.display.flip()
     clock.tick(120)
