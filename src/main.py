@@ -4,6 +4,7 @@ import background as Background
 import player as Player
 import npc as NPC
 import building as POI
+import map as Map
 from conf import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
@@ -23,7 +24,11 @@ def render_entities():
     player.update(pressed_keys)
     camera.update(player.camera_position)
     enemies.update(player.coords)
-    screen.blit(background.surface, (0, 0), (camera.position[0], camera.position[1], SCREEN_WIDTH, SCREEN_HEIGHT))
+    renderable_chunks = map.get_renderable_chunks(player.camera_position)
+    for iter in renderable_chunks:
+        screen.blit(background.surface, 
+                   (chunks[iter[0]][iter[1]][0] - player.camera_position[0], 
+                    chunks[iter[0]][iter[1]][1] - player.camera_position[1]))
     for blop in enemies:
         screen.blit(surf, (blop.destination[0] - camera.position[0], blop.destination[1] - camera.position[1]))
     for entity in all_sprites:
@@ -42,8 +47,11 @@ camera = Camera.Camera()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 player = Player.Player()
 clock = pygame.time.Clock()
-bg_image = pygame.image.load("Tile_12.png")
-background = Background.Background(bg_image, (32, 32))
+bg_image_1 = pygame.image.load("Tile_12.png")
+bg_image_2 = pygame.image.load("land_1.png")
+background = Background.Background(bg_image_1, bg_image_2, (32, 32))
+map = Map.Map()
+chunks = map.chunks
 
 enemies = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
