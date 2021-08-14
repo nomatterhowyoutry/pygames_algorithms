@@ -21,8 +21,8 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.image.load('adventurer-idle-00.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.rect = self.image.get_rect()
-        self.speed_x = 1
-        self.speed_y = 1.5
+        self.speed_x = 5
+        self.speed_y = 5
         self.orientation = 'right'
 
     def update(self, pressed_keys):

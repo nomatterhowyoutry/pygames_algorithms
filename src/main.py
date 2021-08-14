@@ -2,6 +2,7 @@ import pygame
 import random
 import player as Player
 import npc as NPC
+import building as POI
 from conf import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
@@ -27,6 +28,7 @@ clock = pygame.time.Clock()
 enemies = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
+poi = POI.Building()
 surf = pygame.surface.Surface((10, 10))
 surf.fill((0, 255, 0))
 new_enemy = NPC.NPC()
@@ -60,6 +62,7 @@ while running:
     screen.fill((30, 25, 25))
     player.update(pressed_keys)
     enemies.update()
+    screen.blit(poi.rect, poi.position)
     for blop in enemies:
         screen.blit(surf, blop.destination)
     for entity in all_sprites:
