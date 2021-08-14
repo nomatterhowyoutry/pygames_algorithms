@@ -1,14 +1,13 @@
 import pygame
-import random
+import camera as Camera
+import background as Background
 import player as Player
 import npc as NPC
 import building as POI
 from conf import (
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
-    COLLIDE_RATIO
-)
-
+    COLLIDE_RATIO)
 from pygame.locals import (
     K_UP,
     K_DOWN,
@@ -16,14 +15,16 @@ from pygame.locals import (
     K_RIGHT,
     K_ESCAPE,
     KEYDOWN,
-    QUIT,
-)
+    QUIT)
 
 pygame.init()
 
+camera = Camera.Camera()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 player = Player.Player()
 clock = pygame.time.Clock()
+bg_image = pygame.image.load("Tile_12.png")
+background = Background.Background(bg_image, (32, 32))
 
 enemies = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
@@ -44,27 +45,27 @@ while running:
     pressed_keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == KEYDOWN:
-            
-
             if event.key == K_ESCAPE:
                 running = False
-
-
         if event.type == pygame.QUIT:
             running = False
-
         # if event.type == ADDENEMY:
         #     new_enemy = NPC.NPC()
         #     enemies.add(new_enemy)
         #     all_sprites.add(new_enemy)
-    
 
-    screen.fill((30, 25, 25))
     player.update(pressed_keys)
+<<<<<<< HEAD
     enemies.update()
     screen.blit(poi.rect, poi.position)
+=======
+    camera.update(player.camera_position)
+    print(camera.position)
+    enemies.update(player.position)
+    screen.blit(background.surface, (0, 0), (camera.position[0], camera.position[1], SCREEN_WIDTH, SCREEN_HEIGHT))
+>>>>>>> 01b9a0d2eef02d071b9ab4fc302c300ad0efc865
     for blop in enemies:
-        screen.blit(surf, blop.destination)
+        screen.blit(surf, (blop.destination[0] + camera.position[0], blop.destination[1] + camera.position[1]))
     for entity in all_sprites:
         screen.blit(entity.image, entity.rect)
     # if pygame.sprite.spritecollideany(
@@ -74,6 +75,7 @@ while running:
     #     ):
     #     player.kill()
     #     running = False
+
 
     pygame.display.flip()
     clock.tick(120)
