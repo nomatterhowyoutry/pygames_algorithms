@@ -23,34 +23,29 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (100, 100))
         self.camera_position = [0, 0]
         self.rect = self.image.get_rect()
-<<<<<<< HEAD
-        self.speed_x = 5
-        self.speed_y = 5
-=======
         self.rect.centerx = SCREEN_WIDTH / 2
         self.rect.centery = SCREEN_HEIGHT / 2
         self.speed_x = 3
         self.speed_y = 3
->>>>>>> 01b9a0d2eef02d071b9ab4fc302c300ad0efc865
         self.orientation = 'right'
 
     def update(self, pressed_keys):
         if pressed_keys[K_UP]:
-            self.camera_position[1] += self.speed_y
+            self.camera_position[1] -= self.speed_y
             self.rect.centery -= self.speed_y
             # self.rect.move_ip(0, -self.speed_y)
         if pressed_keys[K_DOWN]:
-            self.camera_position[1] -= self.speed_y
+            self.camera_position[1] += self.speed_y
             self.rect.centery += self.speed_y
             # self.rect.move_ip(0, self.speed_y)
         if pressed_keys[K_LEFT]:
             self.blit('left')
-            self.camera_position[0] += self.speed_x
+            self.camera_position[0] -= self.speed_x
             self.rect.centerx -= self.speed_x
             # self.rect.move_ip(-self.speed_x, 0)
         if pressed_keys[K_RIGHT]:
             self.blit('right')
-            self.camera_position[0] -= self.speed_x
+            self.camera_position[0] += self.speed_x
             self.rect.centerx += self.speed_x
             # self.rect.move_ip(self.speed_x, 0)
 
@@ -64,8 +59,12 @@ class Player(pygame.sprite.Sprite):
         #     self.rect.bottom = SCREEN_HEIGHT
 
     @property
-    def position(self):
+    def coords(self):
         return self.rect.centerx, self.rect.centery
+
+    @property
+    def position(self):
+        return (SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2)
 
     def blit(self, orientation):
         if self.orientation != orientation:
