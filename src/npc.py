@@ -35,14 +35,12 @@ class NPC(pygame.sprite.Sprite):
             )
         )
         self.speed = 3
-        self.position = (self.rect.centerx, self.rect.centery)
         self.destination = (random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGHT))
         self.mov = False
         self.orientation = 'right'
 
 
     def update(self, player_position):
-        self.position = (self.rect.centerx, self.rect.centery)
         if self.__calculate_distance(player_position) < 100:
             self.destination = (2 * self.position[0] - player_position[0], 2 * self.position[1] - player_position[1])
         self.__calculate_direction()
@@ -59,7 +57,6 @@ class NPC(pygame.sprite.Sprite):
         self.rect.y += self.stepy * self.speed
 
     def __calculate_distance(self, target):
-        self.position = (self.rect.centerx, self.rect.centery)
         return vector_length(target[0] - self.position[0], target[1] - self.position[1])
 
     def __calculate_direction(self):
@@ -71,6 +68,10 @@ class NPC(pygame.sprite.Sprite):
         if self.orientation != orientation:
             self.orientation = orientation
             self.image = pygame.transform.flip(self.image, True, False)
+
+    @property
+    def position(self):
+        return self.rect.x, self.rect.y
 
     def __update_destination(self):
         self.destination = (random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGHT))

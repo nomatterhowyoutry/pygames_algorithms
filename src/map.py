@@ -1,14 +1,16 @@
-import pygame
 from conf import (
     SCREEN_HEIGHT,
-    SCREEN_WIDTH
+    SCREEN_WIDTH,
+    MAP_SIZE,
+    TOP_BORDER,
+    BOTTOM_BORDER
 )
 
 class Map():
 
     def __init__(self):
-       self.size = 3
-       self.chunk_range = self.size * 2
+       self.size = MAP_SIZE
+       self.chunk_range = self.size * 3
        self.chunk_height = SCREEN_HEIGHT
        self.chunk_width = SCREEN_WIDTH
        self.chunks = self.__generate_chunks()
@@ -40,5 +42,3 @@ class Map():
                 array.append((k, l))
         return array
 
-        
-        

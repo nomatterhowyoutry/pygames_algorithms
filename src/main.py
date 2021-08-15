@@ -6,6 +6,7 @@ import npc as NPC
 import building as POI
 import map as Map
 from conf import (
+    MAP_SIZE,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
     COLLIDE_RATIO)
@@ -23,16 +24,21 @@ pygame.init()
 def render_entities(): 
     player.update(pressed_keys)
     camera.update(player.camera_position)
+    print(camera.position)
     enemies.update(player.coords)
-    renderable_chunks = map.get_renderable_chunks(player.camera_position)
+    renderable_chunks = map.get_renderable_chunks(camera.position)
     for iter in renderable_chunks:
-        screen.blit(background.surface, 
-                   (chunks[iter[0]][iter[1]][0] - player.camera_position[0], 
-                    chunks[iter[0]][iter[1]][1] - player.camera_position[1]))
+        if (iter[0] >= 0 and 
+            iter[1] >= 0 and 
+            iter[0] < MAP_SIZE * 3 and 
+            iter[1] < MAP_SIZE * 3):
+            screen.blit(background.surface, 
+                    (chunks[iter[0]][iter[1]][0] - camera.position[0], 
+                        chunks[iter[0]][iter[1]][1] - player.camera_position[1]))
     for blop in enemies:
         screen.blit(surf, (blop.destination[0] - camera.position[0], blop.destination[1] - camera.position[1]))
     for entity in all_sprites:
-        screen.blit(entity.image, (entity.rect[0] - camera.position[0],  entity.rect[1] - camera.position[1]))
+        screen.blit(entity.image, (entity.position[0] - camera.position[0],  entity.position[1] - camera.position[1]))
     for object in objects:
         screen.blit(object.image, (object.position[0] - camera.position[0], object.position[1] - camera.position[1]))
     if pygame.sprite.spritecollideany(

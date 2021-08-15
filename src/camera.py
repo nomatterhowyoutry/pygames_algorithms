@@ -1,3 +1,11 @@
+from conf import (
+    LEFT_BORDER,
+    RIGHT_BORDER,
+    TOP_BORDER,
+    BOTTOM_BORDER
+)
+
+
 class Camera:
 
     def __init__(self):
@@ -5,8 +13,12 @@ class Camera:
         self.posy = 0
 
     def update(self, camera_position):
-        self.posx = camera_position[0]
-        self.posy = camera_position[1]
+        if (camera_position[0] < 1366 and 
+            camera_position[0] > -1366):
+            self.posx = camera_position[0]
+        if (camera_position[1] < 768 and 
+            camera_position[1] > -768):
+            self.posy = camera_position[1]
 
     @property
     def position(self):
